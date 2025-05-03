@@ -1,3 +1,4 @@
+//israelmor555@gmail.com
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "SquareMat.h"
@@ -33,6 +34,7 @@ namespace mat {
             mat::SquareMat d(3);
             CHECK_THROWS_AS(a + d, std::invalid_argument);
         }
+        std::cout << "Matrix Addition:\n" << c << "\n";
     }
 
     TEST_CASE("Matrix Subtraction") {
@@ -49,6 +51,7 @@ namespace mat {
             mat::SquareMat d(3);
             CHECK_THROWS_AS(a - d, std::invalid_argument);
         }
+        std::cout << "Matrix Subtraction:\n" << c << "\n";
     }
 
     TEST_CASE("Matrix Unary Minus") {
@@ -60,6 +63,7 @@ namespace mat {
 
         CHECK(b.at(0, 0) == -1);
         CHECK(b.at(1, 1) == 2);
+
     }
 
     TEST_CASE("Matrix Multiplication") {
@@ -196,10 +200,17 @@ namespace mat {
         c.at(2,0) = 2; c.at(2,1) = 8; c.at(2,2) = 7;
         CHECK((!c) == -306);
 
-        SUBCASE("Determinant size > 3 throws") {
-            mat::SquareMat d(4);
-            CHECK_THROWS_AS(!d, std::invalid_argument);
-        }
+        mat::SquareMat d(4);
+        d.at(0,0) = 7;  d.at(0,1) = 2;  d.at(0,2) = 9;  d.at(0,3) = 4;
+        d.at(1,0) = 5;  d.at(1,1) = 1;  d.at(1,2) = 6;  d.at(1,3) = 8;
+        d.at(2,0) = 3;  d.at(2,1) = 0;  d.at(2,2) = 2;  d.at(2,3) = 7;
+        d.at(3,0) = 9;  d.at(3,1) = 4;  d.at(3,2) = 1;  d.at(3,3) = 6;
+        CHECK((!d) == 234);
+        std::cout << "Determinant:\n" << a << "\n";
+        std::cout << "Determinant:\n" << b << "\n";
+        std::cout << "Determinant:\n" << c << "\n";
+        std::cout << "Determinant:\n" << d << "\n";
+
     }
 
     TEST_CASE("Matrix Comparisons") {
@@ -225,27 +236,27 @@ namespace mat {
         b.at(0, 0) = 1;
         b.at(1, 1) = 1;
 
-        // בדיקה של חיבור מטריצות
+        // חיבור מטריצות
         a += b;
         CHECK(a.at(0, 0) == 3);
         CHECK(a.at(1, 1) == 4);
 
-        // בדיקה של חיסור מטריצות
+        //  חיסור מטריצות
         a -= b;
         CHECK(a.at(0, 0) == 2);
         CHECK(a.at(1, 1) == 3);
 
-        // בדיקה של כפל מטריצות (פשוטה במקרה זה)
+        //  כפל מטריצות
         a *= b;
         CHECK(a.at(0, 0) == 2);
         CHECK(a.at(1, 1) == 3);
 
-        // בדיקה של כפל בסקלר
+        // כפל בסקלר
         a *= 2;
         CHECK(a.at(0, 0) == 4);
         CHECK(a.at(1, 1) == 6);
 
-        // בדיקה של חילוק בסקלר
+        // חילוק בסקלר
         a /= 2;
         CHECK(a.at(0, 0) == 2);
         CHECK(a.at(1, 1) == 3);

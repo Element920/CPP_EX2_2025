@@ -1,3 +1,4 @@
+//israelmor555@gmail.com
 #include "SquareMat.h"
 #include <stdexcept>
 
@@ -197,7 +198,7 @@ namespace mat {
         return &data[row * size];
     }
 
-    // השוואות == ו- !=
+
     bool SquareMat::operator==(const SquareMat& other) const {
         int sum1 = 0, sum2 = 0;
         for (int i = 0; i < size * size; ++i) {
@@ -231,21 +232,30 @@ namespace mat {
 
 
     int SquareMat::operator!() const {
-        if (size == 1) {
-            return at(0, 0);
+        if (size == 1)
+            return data[0];
+
+        if (size == 2)
+            return data[0] * data[3] - data[1] * data[2];
+
+        int determinant = 0;
+        for (int col = 0; col < size; ++col) {
+            SquareMat sub(size - 1);
+            for (int i = 1; i < size; ++i) {
+                int sub_col = 0;
+                for (int j = 0; j < size; ++j) {
+                    if (j == col) continue;
+                    sub.at(i - 1, sub_col) = at(i, j);
+                    sub_col++;
+                }
+            }
+            int sign = (col % 2 == 0) ? 1 : -1;
+            determinant += sign * at(0, col) * !sub;
         }
-        if (size == 2) {
-            return at(0, 0) * at(1, 1) - at(0, 1) * at(1, 0);
-        }
-        if (size == 3) {
-            return at(0,0)*(at(1,1)*at(2,2) - at(1,2)*at(2,1))
-                 - at(0,1)*(at(1,0)*at(2,2) - at(1,2)*at(2,0))
-                 + at(0,2)*(at(1,0)*at(2,1) - at(1,1)*at(2,0));
-        }
-        throw std::invalid_argument("Determinant only implemented for size 1, 2, or 3");
+        return determinant;
     }
 
-    // אופרטורי השמה += -= *= וכו'
+
     SquareMat& SquareMat::operator+=(const SquareMat& other) {
         if (size != other.size)
             throw std::invalid_argument("Matrix sizes do not match");

@@ -1,3 +1,4 @@
+//israelmor555@gmail.com
 #ifndef SQUARE_MAT_H
 #define SQUARE_MAT_H
 
@@ -44,7 +45,6 @@ namespace mat {
         int operator!() const;
         SquareMat& operator+=(const SquareMat& other);
         SquareMat& operator-=(const SquareMat& other);
-
         SquareMat& operator*=(const SquareMat& other);
         SquareMat& operator*=(int scalar);
         SquareMat& operator/=(int scalar);

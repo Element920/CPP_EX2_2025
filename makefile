@@ -1,12 +1,14 @@
+#israelmor555@gmail.com
 CXX = g++
 CXXFLAGS = -Wall -std=c++17
 
-# קבצי המקור
 SRCS = SquareMat.cpp test.cpp
 OBJS = $(SRCS:.cpp=.o)
-
-# שם האובייקט הסופי
 TARGET = SquareMatrix
+
+MAIN_SRC = Main.cpp
+MAIN_OBJ = $(MAIN_SRC:.cpp=.o)
+MAIN_TARGET = Main
 
 all: $(TARGET)
 
@@ -16,14 +18,16 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# הפעלת הטסטים
 test: $(TARGET)
 	./$(TARGET)
 
-# הרצת ולגרינד
+Main: $(MAIN_TARGET)
+
+$(MAIN_TARGET): SquareMat.o $(MAIN_OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
 valgrind: $(TARGET)
 	valgrind --leak-check=full --track-origins=yes ./$(TARGET)
 
-# ניקוי
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f *.o $(TARGET) $(MAIN_TARGET)
